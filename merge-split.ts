@@ -127,7 +127,7 @@ const main = async () => {
   );
 
   await splitPosition(negRiskAdapter, ctf);
-  await merge(negRiskAdapter, ctf);
+  await mergePositions(negRiskAdapter, ctf);
 };
 
 const splitPosition = async (negRiskAdapter: Contract, ctf: Contract) => {
@@ -153,7 +153,7 @@ const splitPosition = async (negRiskAdapter: Contract, ctf: Contract) => {
   }
 };
 
-const merge = async (negRiskAdapter: Contract, ctf: Contract) => {
+const mergePositions = async (negRiskAdapter: Contract, ctf: Contract) => {
   console.log("Merge conditional tokens");
 
   if (isNegRiskMarket) {
