@@ -103,11 +103,11 @@ const PK = `${process.env.PK}`;
 const RPC_URL = `${process.env.RPC_URL}`;
 
 // contracts
-const contracts = getContractConfig(parseInt(process.env.CHAIN_ID || "80001"));
+const CONTRACTS = getContractConfig(parseInt(process.env.CHAIN_ID || "80001"));
 
 // market
 const CONDITION_ID = `${process.env.CONDITION_ID}`;
-const isNegRiskMarket = `${process.env.IS_NEG_RISK_MARKET}` === "true";
+const IS_NEG_RISK_MARKET = `${process.env.IS_NEG_RISK_MARKET}` === "true";
 
 const main = async () => {
   const provider = new JsonRpcProvider(RPC_URL);
@@ -115,13 +115,13 @@ const main = async () => {
   const wallet = mnemonic.connect(provider);
 
   const negRiskAdapter = new ethers.Contract(
-    contracts.negRiskAdapter,
+    CONTRACTS.negRiskAdapter,
     NegRiskAdapterABI,
     wallet
   );
 
   const ctf = new ethers.Contract(
-    contracts.conditionalTokens,
+    CONTRACTS.conditionalTokens,
     ConditionalTokenABI,
     wallet
   );
@@ -133,7 +133,7 @@ const main = async () => {
 const splitPosition = async (negRiskAdapter: Contract, ctf: Contract) => {
   console.log("Mint conditional tokens");
 
-  if (isNegRiskMarket) {
+  if (IS_NEG_RISK_MARKET) {
     await (
       await negRiskAdapter.splitPosition(
         CONDITION_ID,
@@ -143,7 +143,7 @@ const splitPosition = async (negRiskAdapter: Contract, ctf: Contract) => {
   } else {
     await (
       await ctf.splitPosition(
-        contracts.collateral,
+        CONTRACTS.collateral,
         ethers.constants.HashZero,
         CONDITION_ID,
         [1, 2],
@@ -156,7 +156,7 @@ const splitPosition = async (negRiskAdapter: Contract, ctf: Contract) => {
 const mergePositions = async (negRiskAdapter: Contract, ctf: Contract) => {
   console.log("Merge conditional tokens");
 
-  if (isNegRiskMarket) {
+  if (IS_NEG_RISK_MARKET) {
     await (
       await negRiskAdapter.mergePositions(
         CONDITION_ID,
@@ -166,7 +166,7 @@ const mergePositions = async (negRiskAdapter: Contract, ctf: Contract) => {
   } else {
     await (
       await ctf.mergePositions(
-        contracts.collateral,
+        CONTRACTS.collateral,
         ethers.constants.HashZero,
         CONDITION_ID,
         [1, 2],
