@@ -103,7 +103,7 @@ const PK = `${process.env.PK}`;
 const RPC_URL = `${process.env.RPC_URL}`;
 
 // contracts
-const CONTRACTS = getContractConfig(parseInt(process.env.CHAIN_ID || "80001"));
+const CONTRACTS = getContractConfig(parseInt(process.env.CHAIN_ID || "80002"));
 
 // market
 const CONDITION_ID = `${process.env.CONDITION_ID}`;
